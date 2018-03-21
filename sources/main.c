@@ -19,6 +19,13 @@ t_dblist     *init_shell(char **environ)
     return (start);
 }
 
+/*
+**commented out is the parsing/dispatch that needs to be implemented
+**Sergio without the hat will work on it March 21 and start
+**anyone else can work on the termcaps stuff!!!
+*/
+
+
 int     main(int argc, char **argv, char **environ)
 {
     t_dblist  *env;

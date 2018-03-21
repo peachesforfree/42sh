@@ -1,17 +1,24 @@
-//INCOMPLETE 
-// LAST TOOK OFF AT 
-//https://www.gnu.org/software/termutils/manual/termcap-1.3/html_mono/termcap.html#TOC5
+/*note must compile with -ltermcap flag
 
-#include "../includes/termcaps.h"
+for term caps, make sure to follow links listed in  termcaps.c
 
-void sighandler(int);
+distinct statges of development
+    window formatting
+    reading in expected input "all keys"
+    reading control character ctrl+x ctrl+z and format properly ^C ^Z 
+    reading arrows and other misc buttons and handle properly within termcaps controls  
+    be able to account for open and closed ( ) " " ' ' and know when there is an incomplete number in order
+    If " " are open, continue asking user for more input
 
-/*
-**This is the start of handling term caps
-** by following the guide at
-**https://www.gnu.org/software/termutils/manual/termcap-1.3/html_mono/termcap.html
+No other assesment of string is to be made in start_termcaps
+    return char * from start_termcaps();
+
+best to follow guide at https://www.gnu.org/software/termutils/manual/termcap-1.3/html_mono/termcap.html#TOC5
+        left off at https://www.gnu.org/software/termutils/manual/termcap-1.3/html_mono/termcap.html in tutorial
+
 */
 
+#include "../includes/termcaps.h"
 
 /*
 **  here termcaps is getting data about the current terminal
