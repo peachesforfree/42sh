@@ -1,5 +1,11 @@
 
 #include "../includes/shell.h"
+/*
+**Initializes the shell
+**Copies over the environment variables to a 
+**double linked list
+*/
+
 
 t_dblist     *init_shell(char **environ)
 {
@@ -20,6 +26,18 @@ t_dblist     *init_shell(char **environ)
 }
 
 /*
+**Lexes, parses, builds Abstract Syntax Tree, executes
+*/
+
+void    lex_parse_execute(char *command)
+{
+    
+    lexer_start();
+//    parser_start();
+//    execute_start();
+}
+
+/*
 **commented out is the parsing/dispatch that needs to be implemented
 **Sergio without the hat will work on it March 21 and start
 **anyone else can work on the termcaps stuff!!!
@@ -29,26 +47,19 @@ t_dblist     *init_shell(char **environ)
 int     main(int argc, char **argv, char **environ)
 {
     t_dblist  *env;
-//    char    *line;
+    char    *line;
     int     cont;
     printf("%s\n", argv[0]);
 
     cont = argc;
     env = init_shell(environ);
     (env != NULL) ? (cont = 0) : (cont = 1);
-    while (env->content != NULL)
-    {
-        printf("%s\n", env->content);
-        env = env->next;
-    }
-/*    open(STDIN);
     while (cont)
     {
         putstr("$>");
-        get_next_line(fd, line);
-        parse_command();
-        cont = execute();
+        get_next_line(STDIN_FILENO, line);
+        lex_parse_execute(line);        
     }
-    shutdown_shell();*/    
+    shutdown_shell();
     return (0);
 }
