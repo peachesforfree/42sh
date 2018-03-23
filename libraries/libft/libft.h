@@ -27,6 +27,17 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+typedef struct  s_dblist
+{
+    struct s_dblist    *next;
+    struct s_dblist    *last;
+    void        *content;
+}               t_dblist;
+
+t_dblist      		*double_list_new(void);
+t_dblist      		*double_insert_after(t_dblist *current);
+char				*ft_fronttrim(char *string);
+
 int					get_next_line(const int fd, char **line);
 int					**ft_2dintarray(size_t x, size_t y);
 char				*ft_read_alloc(int fd);

@@ -31,8 +31,10 @@ t_dblist     *init_shell(char **environ)
 
 void    lex_parse_execute(char *command)
 {
-    
-    lexer_start();
+//    t_dblist    *commands;
+    (void)command;
+
+//    commands = lexer_start(command);
 //    parser_start();
 //    execute_start();
 }
@@ -47,19 +49,20 @@ void    lex_parse_execute(char *command)
 int     main(int argc, char **argv, char **environ)
 {
     t_dblist  *env;
-    char    *line;
+    char    buffer[4096];
     int     cont;
-    printf("%s\n", argv[0]);
+    (void)argv;
 
     cont = argc;
     env = init_shell(environ);
-    (env != NULL) ? (cont = 0) : (cont = 1);
+    (env != NULL) ? (cont = 1) : (cont = 0);
     while (cont)
     {
-        putstr("$>");
-        get_next_line(STDIN_FILENO, line);
-        lex_parse_execute(line);        
+        write(1, "$>", 2);
+        ft_bzero(buffer, 4096);
+        read(STDIN_FILENO, buffer, 4095);
+        //lex_parse_execute(buffer);        
     }
-    shutdown_shell();
+    //shutdown_shell();
     return (0);
 }

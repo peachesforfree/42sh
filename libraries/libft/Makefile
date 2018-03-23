@@ -81,7 +81,11 @@ SRCS = ft_atoi.c \
 	   ft_freearr.c \
 	   ft_readalloc.c \
 	   ft_2dintarray.c \
-	   get_next_line.c
+	   get_next_line.c \
+	   ft_dblist_new.c \
+	   ft_dblist_after.c \
+	   ft_fronttrim.c
+
 OBJ = $(SRCS:%.c=%.o)
 
 $(NAME):

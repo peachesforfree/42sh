@@ -2,11 +2,11 @@ NAME = 42sh
 
 CFLAGS = -Wall -Wextra -Werror -g
 
-SRCS = main
-SRCS += double_linked_list
 
 OBJ_FILES = $(SRCS:%=%.o)
 SRC_FILES = $(SRCS:%=%.c)
+SRCS =	main \
+#		lexing/lexing
 SRC_DIR = ./sources/
 OBJ_DIR = ./obj/
 INC_DIR = ./includes/
@@ -21,6 +21,7 @@ all: obj $(LIBFT) $(NAME)
 
 obj:
 	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)/lexing
 
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c
 	gcc $(CFLAGS) -I $(INC_DIR) -o $@ -c $<
