@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 OBJ_FILES = $(SRCS:%=%.o)
 SRC_FILES = $(SRCS:%=%.c)
 SRCS =	main \
-#		lexing/lexing
+#		parse/parse
 SRC_DIR = ./sources/
 OBJ_DIR = ./obj/
 INC_DIR = ./includes/

@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "termcaps.h": "c",
-        "lexing.h": "c"
+        "lexing.h": "c",
+        "libft.h": "c"
     }
 }

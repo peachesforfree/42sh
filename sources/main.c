@@ -29,14 +29,14 @@ t_dblist     *init_shell(char **environ)
 **Lexes, parses, builds Abstract Syntax Tree, executes
 */
 
-void    lex_parse_execute(char *command)
+void    lex_parse_execute(char *command, t_dblist *env)
 {
-//    t_dblist    *commands;
-    (void)command;
+    t_dblist    *commands;
+//    t_btree     *worktree;
 
-//    commands = lexer_start(command);
-//    parser_start();
-//    execute_start();
+    commands = parse_start(command);
+//    worktree = parser_start(commands);
+//    execute_start(commands, env);
 }
 
 /*
@@ -61,7 +61,7 @@ int     main(int argc, char **argv, char **environ)
         write(1, "$>", 2);
         ft_bzero(buffer, 4096);
         read(STDIN_FILENO, buffer, 4095);
-        //lex_parse_execute(buffer);        
+        lex_parse_execute(buffer, env);        
     }
     //shutdown_shell();
     return (0);

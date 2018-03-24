@@ -1,7 +1,7 @@
 
 
-#ifndef LEXING_H
-# define LEXING_H
+#ifndef PARSE_H
+# define PARSE_H
 
 # include "../shell.h"
 # define DELIMITER ";|><&`\"$-()"
@@ -21,6 +21,12 @@
 # define CMDOP          0b00001000
 
 t_dblist    *lexer_start(char  *commands);
+int         make_token(t_dblist *start, int i, char *commands);
+int         pipeout(t_dblist *start, int i, char *commands);
+int         pipein(t_dblist *start, int i, char *commands);
+int         backtick(t_dblist *start, int i, char *commands);
+int         dblquote(t_dblist *start, int i, char *commands);
+int         param(t_dblist *start, int i, char *commands);
 
 typedef struct  s_token
 {
