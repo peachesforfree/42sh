@@ -7,7 +7,7 @@
 # define DELIMITER ";|><&`\"$-()"
 # define SPECIALS "*?[]#~=%%"
 # define PIPE   "|"
-# define END    ";"
+# define SEMICOLN    ";"
 # define QUOTE "\""
 # define BKTCK "`"
 # define FORK   "&"
@@ -20,12 +20,12 @@
 # define CMDDELIN       0b00000100
 # define CMDOP          0b00001000
 
-t_dblist    *lexer_start(char  *commands);
+t_dblist    *parse_start(char  *commands);
 int         make_token(t_dblist *start, int i, char *commands);
 int         pipeout(t_dblist *start, int i, char *commands);
-int         pipein(t_dblist *start, int i, char *commands);
-int         backtick(t_dblist *start, int i, char *commands);
-int         dblquote(t_dblist *start, int i, char *commands);
+//int         pipein(t_dblist *start, int i, char *commands);
+//int         backtick(t_dblist *start, int i, char *commands);
+//int         dblquote(t_dblist *start, int i, char *commands);
 int         param(t_dblist *start, int i, char *commands);
 
 typedef struct  s_token
@@ -36,7 +36,5 @@ typedef struct  s_token
     char        *flags;
     int         flglen;
 }               t_token;
-
-extern  t_token   g_builtin[8];
 
 #endif

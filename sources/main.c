@@ -1,5 +1,17 @@
 
 #include "../includes/shell.h"
+
+void    TEST_print_list(t_dblist *commands)
+{
+    while (commands)
+    {
+        printf("%s\n", commands->content);
+        if (commands->next != NULL)
+            commands = commands->next;
+        else
+            exit(1);
+    }
+}
 /*
 **Initializes the shell
 **Copies over the environment variables to a 
@@ -14,7 +26,7 @@ t_dblist     *init_shell(char **environ)
     t_dblist  *temp;
 
     i = 0;
-    start = double_list_new();
+    start = ft_dblist_new();
     temp = start;
     while (environ[i] != NULL)
     {
@@ -32,11 +44,13 @@ t_dblist     *init_shell(char **environ)
 void    lex_parse_execute(char *command, t_dblist *env)
 {
     t_dblist    *commands;
+    (void)env;
 //    t_btree     *worktree;
 
     commands = parse_start(command);
 //    worktree = parser_start(commands);
 //    execute_start(commands, env);
+    TEST_print_list(commands);
 }
 
 /*
@@ -49,19 +63,19 @@ void    lex_parse_execute(char *command, t_dblist *env)
 int     main(int argc, char **argv, char **environ)
 {
     t_dblist  *env;
-    char    buffer[4096];
+//    char    buffer[4096];
     int     cont;
-    (void)argv;
+//    (void)argv;
 
     cont = argc;
     env = init_shell(environ);
     (env != NULL) ? (cont = 1) : (cont = 0);
     while (cont)
     {
-        write(1, "$>", 2);
-        ft_bzero(buffer, 4096);
-        read(STDIN_FILENO, buffer, 4095);
-        lex_parse_execute(buffer, env);        
+//        write(1, "$>", 2);
+//        ft_bzero(buffer, 4096);
+//        read(STDIN_FILENO, buffer, 4095);
+        lex_parse_execute(argv[1], env);        
     }
     //shutdown_shell();
     return (0);

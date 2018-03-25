@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 OBJ_FILES = $(SRCS:%=%.o)
 SRC_FILES = $(SRCS:%=%.c)
 SRCS =	main \
-#		parse/parse
+		parse/parse
 SRC_DIR = ./sources/
 OBJ_DIR = ./obj/
 INC_DIR = ./includes/
@@ -21,7 +21,7 @@ all: obj $(LIBFT) $(NAME)
 
 obj:
 	@mkdir -p $(OBJ_DIR)
-	@mkdir -p $(OBJ_DIR)/lexing
+	@mkdir -p $(OBJ_DIR)/parse
 
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c
 	gcc $(CFLAGS) -I $(INC_DIR) -o $@ -c $<
