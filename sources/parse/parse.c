@@ -1,76 +1,5 @@
 #include "../../includes/parse/parse.h"
 
-int        (*g_parse_lookup[127]) (t_dblist *start, int i, char *commands) =
-{
-    [';'] = make_token,
-    ['|'] = make_token,
-    ['>'] = pipeout,
-//    ['<'] = pipein,
-//    ['`'] = backtick,
-//    ['"'] = dblquote,
-    ['$'] = param,
-    ['-'] = make_token,
-    ['&'] = make_token,
-    ['('] = make_token,
-    [')'] = make_token
-};
-
-//counts the number of digits before the redirections while still keeping after index of 0
-int         prefix_num_len(char *commands, int i)
-{
-    int index;
-
-    index = 0;
-    while ((i + index) >= 1)
-    {
-        if (ft_isdigit(commands[i + index - 1]))
-            index--;
-        else
-            break;
-    }
-    return (index);
-}
-
-
-/*
-*           LAST TOOK OFF HERE 
-*   trying to figure out how to handle numbers on redirections i.e. 3>1     >2      3>  3>&1 ?  2&>1 ?
-*   last at the count for digits after the carrot and how to get that into its own db_list
-*/
-
-int         pipeout(t_dblist *start, int i, char *commands)
-{
-    int index;
-    t_dblist *temp;
-
-    index = 0;
-    if (i > 0 && ft_isdigit(commands[i - 1]))
-    {
-        index += prefix_num_len(commands, i);
-        tmp = ft_dblist_new();
-        tmp->content = ft_strndup(&commands[i + index], (index * -1));
-        ft_dblist_enque(start,tmp);
-    }
-    index = 0;
-    tmp = ft_dblist_new();
-    tmp->content = ft_strndup(&commands[i], 1);
-    ft_dblist_enque(start,tmp);
-    while (commands [i + index + 1] && ft_isdigit(commands[i + index + 1]))
-        index++;
-    if (index)
-    return (index);
-}
-
-int         ffw_spaces(char *string)
-{
-    int i;
-
-    i = 0;
-    while (ft_isspace(&string[i]))
-        i++;
-    return (i);
-}
-
 char        *ft_strndup(char *src, int n)
 {
     char    *dest;
@@ -91,6 +20,16 @@ t_dblist    *ft_dblist_enque(t_dblist *start, t_dblist *new)
     return (start);
 }    
 
+int         ffw_spaces(char *string)
+{
+    int i;
+
+    i = 0;
+    while (ft_isspace(&string[i]))
+        i++;
+    return (i);
+}
+
 /*
 **This parses the single char tokens that are delimiters
 **< > | ; - >> << ` " ( ) $ &
@@ -101,9 +40,9 @@ int         make_token(t_dblist *start, int i, char *commands)
     t_dblist    *tmp;
 
     tmp = ft_dblist_new();
-    tmp->content = ft_strndup(&commands[i], 1);
+    tmp->content = ft_strndup(commands, i);
     ft_dblist_enque(start,tmp);
-    return (1);
+    return (i);
 }
 
 /*
@@ -113,36 +52,98 @@ int         make_token(t_dblist *start, int i, char *commands)
 
 int         word_token(t_dblist *start, int i, char *commands)
 {
-    int         index;
-    t_dblist    *temp;
+    int     index;
     
     index = 0;
-    while(commands[i + index] != '\0' && !ft_isspace(&commands[index + i]) && !ft_strchr(DELIMITER, commands[i + index]))
+    while(commands[i + index] != '\0' && !ft_isspace(&commands[index + i]))
         index++;
-    temp = ft_dblist_new();
-    temp->content = ft_strndup(&commands[i], index);
-    ft_dblist_enque(start, temp);
+    make_token(start, index, &commands[i]);
     return(index);
 }
 
+char        find_end_marker(char start)
+{
+    char end;
+
+    end = '\0';
+    (start == '\"')?(end = '\"'):(0);
+    (start == '`')?(end = '`'):(0);
+    (start == '(')?(end = ')'):(0);
+    (start == '[')?(end = ']'):(0);
+    (start == '{')?(end = '}'):(0);
+    (start == '\'')?(end = '\''):(0);
+    return (end);
+}
+
 /*
-**Deals with the parsing with ${ }
-**
+**if quoted
+**Token is made to the last corresponding quotation mark
 */
 
-int         param(t_dblist *start, int i, char *commands)
+int         quoted(t_dblist *start,char *commands)
 {
-    int         index;
-    t_dblist    *temp;
-    
-    index = 0;
-    while (!ft_isspace(&commands[i + index]) && ft_strchr(DELIMITER, commands[i]))
+    int     index;
+    char    marker;
+    char    end_marker;
+
+    marker = commands[0];
+    end_marker = find_end_marker(marker);
+    index = 1;
+    while (commands[index] != '\0')
+    {
+        if (commands[index] == end_marker)
+            break;
         index++;
-    temp = ft_dblist_new();
-    temp->content = ft_strndup(&commands[i], index);
-    ft_dblist_enque(start, temp);
-    return (index);
+    }
+    make_token(start, index + 1, commands);
+    return (index + 1);
 }
+
+t_dblist    *break_up_item(t_dblist *current)
+{
+    t_dblist    *temp;
+    int         first_len;
+    int         second_len;
+
+    temp = ft_dblist_new();
+    
+    return (temp);
+}
+
+/*need to write delimiter_present   && break_up_item
+    for if a word in the linked list has a delimiter 
+    the two will be broken up into 3 nodes, one for each word, and one for delimiter
+    IF delimiter is at end/front, the one is broken into two nodes
+*/
+
+/*need to make quotations_present && inset_list_into_list
+    outside of making the beginning and ending quotes into nodes
+    the stuff within its gors back through parse_start and with that returned list
+    it is inserted between the quotations.
+
+    NOTE TO SELF: as is, in design, the lists will keep expanding for every pair of quotations
+*/
+void        break_out_op(t_dblist *start)
+{
+    t_dblist    *temp;
+    int         index;
+
+    index = 0;
+    temp = start;
+    while (temp)
+    {
+        if (delimiter_present((char*)temp->content))
+            temp = break_up_item(temp);
+        else if (quotations_present(temp))
+            temp = insert_list_into_list(temp);
+        else if (temp->next == NULL)
+            break;
+        else
+            temp = temp->next;
+    }
+}
+
+//      ^^ start here !!!
 
 t_dblist    *parse_start(char  *commands)
 {
@@ -156,15 +157,18 @@ t_dblist    *parse_start(char  *commands)
         return (NULL);
     while (commands[i] != '\0')
     {
-        i +=ffw_spaces(&commands[i]);
-        if (ft_strchr(DELIMITER, commands[i]))
-            i += (*g_parse_lookup[(int)commands[i]])(start, i, commands);
-        else if (!ft_strchr(DELIMITER, commands[i]))
+        i += ffw_spaces(&commands[i]);
+        if (ft_strchr(QUOTED_CHR, commands[i]))
+        {
+            i += quoted(start, &commands[i]);
+            continue;
+        }
+        else if (!ft_isspace(&commands[i]))
+        {
             i += word_token(start, i, commands);
-        //else if (search for number before/after carrots ?)
-        else // commands[i] != NULL
-            i++; // <-- what do ?
+            continue;
+        }
     }
-    //remove first item in list and shift start to real first item in list
+    break_out_op(start);
     return (start);
 }

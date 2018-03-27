@@ -4,17 +4,18 @@
 # define PARSE_H
 
 # include "../shell.h"
-# define DELIMITER ";|><&`\"$-()"
-# define SPECIALS "*?[]#~=%%"
-# define PIPE   "|"
-# define SEMICOLN    ";"
-# define QUOTE "\""
-# define BKTCK "`"
-# define FORK   "&"
-# define REDIR_R ">"
-# define REDIR_RR ">>"
-# define REDIR_L "<"
-# define REDIR_LL "<<"
+# define DELIMITER      ";|><&`\"$-()"
+# define QUOTED_CHR     "\"'`("
+# define SPECIALS       "*?[]#~=%%"
+# define PIPE           "|"
+# define SEMICOLN       ";"
+# define QUOTE          "\""
+# define BKTCK          "`"
+# define FORK           "&"
+# define REDIR_R        ">"
+# define REDIR_RR       ">>"
+# define REDIR_L        "<"
+# define REDIR_LL       "<<"
 # define CMDBUILTIN     0b00000001
 # define CMDREGULAR     0b00000010
 # define CMDDELIN       0b00000100
@@ -26,7 +27,7 @@ int         pipeout(t_dblist *start, int i, char *commands);
 //int         pipein(t_dblist *start, int i, char *commands);
 //int         backtick(t_dblist *start, int i, char *commands);
 //int         dblquote(t_dblist *start, int i, char *commands);
-int         param(t_dblist *start, int i, char *commands);
+//int         param(t_dblist *start, int i, char *commands);
 
 typedef struct  s_token
 {

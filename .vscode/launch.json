@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/42sh",
-            "args": ["hell oworld"],
+            "args": ["hello worl;d 'derp   shit'"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

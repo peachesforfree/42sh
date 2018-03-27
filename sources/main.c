@@ -9,7 +9,8 @@ void    TEST_print_list(t_dblist *commands)
         if (commands->next != NULL)
             commands = commands->next;
         else
-            exit(1);
+            break;
+        //    exit(1);
     }
 }
 /*
@@ -59,23 +60,62 @@ void    lex_parse_execute(char *command, t_dblist *env)
 **anyone else can work on the termcaps stuff!!!
 */
 
+#define LSH_RL_BUFSIZE 1024
+char *lsh_read_line(void)
+{
+  int bufsize = LSH_RL_BUFSIZE;
+  int position = 0;
+  char *buffer = malloc(sizeof(char) * bufsize);
+  int c;
+
+  if (!buffer) {
+    fprintf(stderr, "lsh: allocation error\n");
+    exit(EXIT_FAILURE);
+  }
+
+  while (1) {
+    // Read a character
+    c = getchar();
+
+    // If we hit EOF, replace it with a null character and return.
+    if (c == EOF || c == '\n') {
+      buffer[position] = '\0';
+      return buffer;
+    } else {
+      buffer[position] = c;
+    }
+    position++;
+
+    // If we have exceeded the buffer, reallocate.
+    if (position >= bufsize) {
+      bufsize += LSH_RL_BUFSIZE;
+      buffer = realloc(buffer, bufsize);
+      if (!buffer) {
+        fprintf(stderr, "lsh: allocation error\n");
+        exit(EXIT_FAILURE);
+      }
+    }
+  }
+}
+
 
 int     main(int argc, char **argv, char **environ)
 {
     t_dblist  *env;
-//    char    buffer[4096];
-    int     cont;
-//    (void)argv;
+    char    *buffer;
+     int     cont;
+    (void)argv;
 
     cont = argc;
     env = init_shell(environ);
     (env != NULL) ? (cont = 1) : (cont = 0);
     while (cont)
     {
-//        write(1, "$>", 2);
-//        ft_bzero(buffer, 4096);
-//        read(STDIN_FILENO, buffer, 4095);
-        lex_parse_execute(argv[1], env);        
+        write(1, "$>", 2);
+//       ft_bzero(buffer, 4096);
+        buffer = lsh_read_line();
+        //read(STDIN_FILENO, buffer, 4095);
+        lex_parse_execute(buffer, env);        
     }
     //shutdown_shell();
     return (0);
