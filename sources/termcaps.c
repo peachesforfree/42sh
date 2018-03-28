@@ -6,7 +6,7 @@
 /*   By: tyang <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 10:58:38 by tyang             #+#    #+#             */
-/*   Updated: 2018/03/26 11:09:01 by tyang            ###   ########.fr       */
+/*   Updated: 2018/03/26 13:49:20 by tyang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,12 @@ void    init_terminal_data (void)
 }
 
 /*
-*  here is where the program performs a function based on the keyinput 
-*   every item here will need to be mapped messages dont need to be displayed for all of them
+**	here is where the program performs a function based on the keyinput 
+**	every item here will need to be mapped messages dont need to be 
+**	displayed for all of them.
 */
 
-void sighandler(int signum)
+void	sighandler(int signum)
 {
 	printf("Caught signal %d\n", signum);
 	if (signum == SIGINT)
@@ -93,21 +94,20 @@ void sighandler(int signum)
 **	all key strokes nad strange key press combinations will need to be 
 **	mapped to defines in termcap.h
 **	signal() function is almost always running in the background 
-**	receiveing keyboard input waiting to act on it i.e. 
+**	receiveing keyboard input waiting to act on it i.e.
 **	Kill program control+c or ^C or SIGINT
 */
 
-int start_termcaps(void) 
+int		start_termcaps(void)
 {
-    printf("\nstarting init_terminal_data()\n");
-    init_terminal_data();
-    printf("\nsuccess getting ENV\n");
-
-   signal(SIGINT, sighandler);
-   while(1)
-   {
-      printf("Going to sleep for 1 second...\n");
-      sleep(1); 
-   }
-   return(0);
+	printf("\nstarting init_terminal_data()\n");
+	init_terminal_data();
+	printf("\nsuccess getting ENV\n");
+	signal(SIGINT, sighandler);
+	while(1)
+	{
+		printf("Going to sleep for 1 second...\n");
+		sleep(1);
+	}
+	return(0);
 }
