@@ -4,8 +4,9 @@
 # define PARSE_H
 
 # include "../shell.h"
-# define DELIMITER      ";|><&`\"$-()"
-# define QUOTED_CHR     "\"'`("
+# define DELIMITER      ";|><&`\"'$-()"
+# define DELIM_WO_QUOTE ";|><&$-"
+# define QUOTATIONS     "\"'`("
 # define SPECIALS       "*?[]#~=%%"
 # define PIPE           "|"
 # define SEMICOLN       ";"

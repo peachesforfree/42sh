@@ -37,6 +37,8 @@ typedef struct  s_dblist
 t_dblist      		*ft_dblist_new(void);
 t_dblist      		*double_insert_after(t_dblist *current);
 char				*ft_fronttrim(char *string);
+void	            ft_dblist_free(t_dblist *list);
+void				ft_dblist_bridge(t_dblist *first, t_dblist *second);
 
 int					get_next_line(const int fd, char **line);
 int					**ft_2dintarray(size_t x, size_t y);
